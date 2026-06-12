@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOMEONES · 썸원스브레드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+KR:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #FAF6EF;
+      --cream-dk: #F2EBD9;
+      --brown:    #2C1A0E;
+      --brown-md: #6B4226;
+      --amber:    #B87333;
+      --amber-lt: #D4956A;
+      --warm-gray:#9E8E7E;
+      --white:    #FFFDF9;
+      --green:    #4A7C59;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--cream);
+      color: var(--brown);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(250,246,239,0.90);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184,115,51,0.15);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; letter-spacing: .12em;
+      color: var(--brown); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--brown-md); text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-store {
+      font-size: .78rem; letter-spacing: .08em;
+      color: var(--white); text-decoration: none;
+      background: var(--green);
+      padding: 7px 16px; border-radius: 20px;
+      transition: opacity .2s;
+    }
+    .nav-store:hover { opacity: .85; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; position: relative; overflow: hidden;
+      padding: 120px 24px 80px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 30%, #EDD9B8 0%, transparent 70%),
+        linear-gradient(175deg, #F5EDD8 0%, #FAF6EF 50%, #F0E8D5 100%);
+    }
+    .hero-grain {
+      position: absolute; inset: 0; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px; opacity: .6;
+    }
+    .hero-deco {
+      position: absolute; z-index: 1;
+      font-size: 11rem; opacity: .04; user-select: none; pointer-events: none;
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero-deco.d1 { top: 5%; left: -2%; }
+    .hero-deco.d2 { bottom: 8%; right: 0%; animation-delay: 3s; font-size: 8rem; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(-3deg); }
+      50%       { transform: translateY(-18px) rotate(3deg); }
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 700px; }
+    .hero-badge {
+      display: inline-block;
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--amber); border: 1px solid var(--amber-lt);
+      padding: 5px 18px; border-radius: 20px; margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 8vw, 6rem);
+      font-weight: 700; line-height: 1.05; letter-spacing: -.01em;
+      color: var(--brown); margin-bottom: 8px;
+    }
+    .hero-title em { font-style: italic; color: var(--amber); }
+    .hero-subtitle {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--brown-md); letter-spacing: .08em; margin-bottom: 24px;
+    }
+    .hero-desc {
+      font-size: .94rem; color: var(--warm-gray);
+      max-width: 440px; margin: 0 auto 40px; line-height: 2;
+    }
+    .hero-cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: var(--brown); color: var(--cream);
+      padding: 14px 36px; border-radius: 32px;
+      font-size: .88rem; letter-spacing: .1em;
+      text-decoration: none; transition: background .2s, transform .2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--brown-md); transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent; color: var(--brown);
+      padding: 14px 36px; border-radius: 32px;
+      border: 1.5px solid var(--amber-lt);
+      font-size: .88rem; letter-spacing: .1em;
+      text-decoration: none; transition: border-color .2s, color .2s, transform .2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+    .btn-store {
+      background: var(--green); color: var(--white);
+      padding: 14px 36px; border-radius: 32px;
+      font-size: .88rem; letter-spacing: .08em;
+      text-decoration: none; transition: opacity .2s, transform .2s;
+      display: inline-block;
+    }
+    .btn-store:hover { opacity: .88; transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--warm-gray);
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .hero-scroll::after {
+      content: ''; display: block; width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--warm-gray), transparent);
+    }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 100px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: .72rem; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 12px; display: block;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600; line-height: 1.2;
+      color: var(--brown); margin-bottom: 16px;
+    }
+    .section-title em { font-style: italic; color: var(--amber); }
+    .divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--amber), transparent);
+      margin-bottom: 24px;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-visual {
+      position: relative; aspect-ratio: 4/5;
+      background: linear-gradient(145deg, #E8D5B0, #C9A876);
+      border-radius: 4px 64px 4px 64px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-visual::before { content: '🥐'; font-size: 8rem; opacity: .22; }
+    .about-visual-tag {
+      position: absolute; bottom: 28px; right: 28px;
+      background: var(--brown); color: var(--cream);
+      font-size: .75rem; letter-spacing: .1em; padding: 8px 16px; border-radius: 20px;
+    }
+    .about-text p { font-size: .95rem; color: var(--warm-gray); line-height: 2; margin-bottom: 20px; }
+    .about-creds { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+    .cred-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 20px; background: var(--cream); border-radius: 8px;
+      border-left: 3px solid var(--amber);
+    }
+    .cred-icon { font-size: 1.4rem; }
+    .cred-text { font-size: .85rem; line-height: 1.4; }
+    .cred-text strong { display: block; color: var(--brown); font-weight: 500; margin-bottom: 2px; }
+    .cred-text span { color: var(--warm-gray); font-size: .78rem; }
+
+    /* ── PHILOSOPHY ── */
+    #philosophy { background: var(--brown); text-align: center; }
+    #philosophy .section-label { color: var(--amber-lt); }
+    #philosophy .section-title { color: var(--cream); }
+    #philosophy .divider { background: linear-gradient(90deg, var(--amber-lt), transparent); margin: 0 auto 32px; }
+    .phil-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem); font-style: italic;
+      color: var(--cream-dk); max-width: 700px; margin: 0 auto 56px; line-height: 1.7;
+    }
+    .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 900px; margin: 0 auto; }
+    .phil-card {
+      padding: 32px 24px;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 12px;
+    }
+    .phil-icon { font-size: 2.2rem; margin-bottom: 16px; }
+    .phil-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--amber-lt); margin-bottom: 10px; }
+    .phil-card p { font-size: .83rem; color: rgba(250,246,239,.65); line-height: 1.8; }
+
+    /* ── MENU ── */
+    #menu { background: var(--cream); }
+    .menu-intro { max-width: 560px; font-size: .92rem; color: var(--warm-gray); line-height: 2; margin-bottom: 40px; }
+
+    /* Tab system */
+    .menu-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px;
+    }
+    .tab-btn {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: .8rem; font-weight: 400; letter-spacing: .06em;
+      padding: 8px 20px; border-radius: 24px; border: 1.5px solid var(--cream-dk);
+      background: var(--white); color: var(--warm-gray);
+      cursor: pointer; transition: all .2s;
+    }
+    .tab-btn:hover { border-color: var(--amber-lt); color: var(--brown); }
+    .tab-btn.active { background: var(--brown); color: var(--cream); border-color: var(--brown); }
+
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .menu-card {
+      background: var(--white); border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(184,115,51,.12);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .menu-card.hidden { display: none; }
+    .menu-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(44,26,14,.1); }
+    .menu-card-img {
+      height: 180px; display: flex; align-items: center; justify-content: center; font-size: 5rem;
+    }
+    .menu-card-img.c-croissant { background: linear-gradient(135deg, #F0D9A0, #D4A96A); }
+    .menu-card-img.c-salt      { background: linear-gradient(135deg, #EDE0C8, #D4BC90); }
+    .menu-card-img.c-mugwort   { background: linear-gradient(135deg, #C8D8A8, #A0B870); }
+    .menu-card-img.c-brioche   { background: linear-gradient(135deg, #EDD9A3, #D4A96A); }
+    .menu-card-img.c-milk      { background: linear-gradient(135deg, #F5E8CE, #E8D0A0); }
+    .menu-card-img.c-sour      { background: linear-gradient(135deg, #D4C5A9, #B8A882); }
+    .menu-card-img.c-wheat     { background: linear-gradient(135deg, #C8B89A, #A89070); }
+    .menu-card-img.c-madeleine { background: linear-gradient(135deg, #F5E0C0, #E8C080); }
+    .menu-card-img.c-tart      { background: linear-gradient(135deg, #F2C4C4, #E89090); }
+    .menu-card-img.c-cake      { background: linear-gradient(135deg, #F8D8E0, #F0A0B8); }
+    .menu-card-img.c-jam       { background: linear-gradient(135deg, #F0C890, #E09840); }
+    .menu-card-img.c-drink     { background: linear-gradient(135deg, #C8E8A0, #A0C870); }
+    .menu-card-body { padding: 24px; }
+    .menu-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--brown); margin-bottom: 6px; }
+    .menu-card-body p { font-size: .82rem; color: var(--warm-gray); line-height: 1.7; }
+    .menu-tag {
+      display: inline-block; margin-top: 12px;
+      font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+      background: var(--cream-dk); color: var(--brown-md);
+      padding: 3px 10px; border-radius: 10px;
+    }
+    .menu-tag.sig { background: var(--amber); color: var(--white); }
+    .menu-tag.season { background: #E8F0D8; color: var(--green); }
+
+    /* ── ORDER / SERVICES ── */
+    #order { background: var(--cream-dk); }
+    .order-notice {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: #FFF8F0; border: 1px solid var(--amber-lt);
+      border-radius: 10px; padding: 16px 20px;
+      font-size: .84rem; color: var(--brown-md); line-height: 1.7;
+      margin-bottom: 48px; max-width: 620px;
+    }
+    .order-notice .notice-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+    .order-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px; }
+    .order-card {
+      background: var(--white); border-radius: 16px; padding: 36px 28px;
+      border: 1px solid rgba(184,115,51,.12); text-align: center;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .order-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(44,26,14,.08); }
+    .order-card .icon { font-size: 2.8rem; margin-bottom: 16px; }
+    .order-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--brown); margin-bottom: 10px; }
+    .order-card p { font-size: .85rem; color: var(--warm-gray); line-height: 1.8; }
+    .order-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── HOURS / LOCATION ── */
+    #visit { background: var(--white); }
+    .visit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .hours-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    .hours-table tr { border-bottom: 1px solid var(--cream-dk); }
+    .hours-table td { padding: 14px 0; font-size: .9rem; }
+    .hours-table td:first-child { color: var(--warm-gray); width: 100px; }
+    .hours-table td:last-child { color: var(--brown); font-weight: 500; }
+    .open-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #E8F5E0; color: #3A7D2A;
+      font-size: .72rem; letter-spacing: .06em; padding: 3px 10px; border-radius: 12px;
+      margin-left: 10px; vertical-align: middle;
+    }
+    .open-badge::before { content: '●'; font-size: .5rem; }
+    .closed-row td { opacity: .4; }
+    .location-block { margin-top: 24px; }
+    .location-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+    .location-icon {
+      width: 40px; height: 40px; min-width: 40px;
+      background: var(--cream-dk); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .location-text { font-size: .9rem; line-height: 1.7; color: var(--brown); }
+    .location-text span { display: block; color: var(--warm-gray); font-size: .8rem; }
+    .map-placeholder {
+      margin-top: 32px; height: 200px; border-radius: 12px;
+      background: linear-gradient(135deg, #E8D5B0, #D4C090);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; color: var(--brown-md); border: 1px dashed var(--amber-lt);
+      font-size: .85rem; letter-spacing: .05em; cursor: pointer; text-decoration: none;
+      transition: opacity .2s;
+    }
+    .map-placeholder:hover { opacity: .8; }
+    .map-placeholder .map-icon { font-size: 2.4rem; }
+
+    /* ── INSTAGRAM ── */
+    #instagram { background: var(--cream); text-align: center; }
+    .insta-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
+      margin: 48px 0 40px;
+    }
+    .insta-tile {
+      aspect-ratio: 1; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; opacity: .85;
+      transition: opacity .2s, transform .2s;
+    }
+    .insta-tile:nth-child(1) { background: linear-gradient(135deg, #EDD9A3, #C9A876); }
+    .insta-tile:nth-child(2) { background: linear-gradient(135deg, #F2C4C4, #E89090); }
+    .insta-tile:nth-child(3) { background: linear-gradient(135deg, #D4C5A9, #B8A882); }
+    .insta-tile:nth-child(4) { background: linear-gradient(135deg, #C8E8A0, #A0C870); }
+    .insta-tile:nth-child(5) { background: linear-gradient(135deg, #F5E8CE, #E8D0A0); }
+    .insta-tile:nth-child(6) { background: linear-gradient(135deg, #F0C890, #E09840); }
+    .insta-tile:hover { opacity: 1; transform: scale(1.04); }
+    .insta-handle { font-size: 1.1rem; color: var(--brown); margin-bottom: 24px; font-family: 'Playfair Display', serif; }
+    .insta-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--brown); color: rgba(250,246,239,.6);
+      padding: 56px 24px 36px; text-align: center;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--cream); letter-spacing: .1em; margin-bottom: 8px; }
+    .footer-tagline { font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; color: var(--amber-lt); margin-bottom: 32px; }
+    .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; list-style: none; margin-bottom: 32px; }
+    .footer-links a { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(250,246,239,.5); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--amber-lt); }
+    .footer-divider { width: 48px; height: 1px; background: rgba(250,246,239,.15); margin: 0 auto 24px; }
+    .footer-copy { font-size: .75rem; color: rgba(250,246,239,.35); line-height: 1.9; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .menu-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .about-grid, .visit-grid { grid-template-columns: 1fr; gap: 48px; }
+      .phil-grid { grid-template-columns: 1fr; }
+      .order-grid { grid-template-columns: 1fr; }
+      .insta-grid { grid-template-columns: repeat(3, 1fr); }
+      section { padding: 72px 20px; }
+      .about-visual { aspect-ratio: 3/2; }
+    }
+    @media (max-width: 480px) {
+      .hero-cta { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-ghost, .btn-store { width: 100%; text-align: center; }
+      .order-cta, .insta-cta { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">SOMEONES</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#order">Order</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+    <a href="https://m.smartstore.naver.com/someonesbreadntable" target="_blank" class="nav-store">네이버 스토어</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grain"></div>
+    <span class="hero-deco d1">🌾</span>
+    <span class="hero-deco d2">🥐</span>
+
+    <div class="hero-content">
+      <span class="hero-badge">김포 장기동 · 목–월 10:30–19:00</span>
+      <h1 class="hero-title">SOME<em>ONES</em><br>BREAD</h1>
+      <p class="hero-subtitle">썸원스브레드</p>
+      <p class="hero-desc">
+        오늘, 당신 곁에 있을 한 조각 — SOMEONES BREAD.<br>
+        김포에서 만드는 정직한 빵, 계절이 바뀌면 메뉴도 바뀝니다.
+      </p>
+      <div class="hero-cta">
+        <a href="#menu" class="btn-primary">메뉴 보기</a>
+        <a href="https://m.smartstore.naver.com/someonesbreadntable" target="_blank" class="btn-store">네이버 스토어</a>
+        <a href="#visit" class="btn-ghost">방문 안내</a>
+      </div>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual">
+          <span class="about-visual-tag">Artisan Bakery · 김포 장기동</span>
+        </div>
+        <div class="about-text">
+          <span class="section-label">Our Story</span>
+          <h2 class="section-title">직접 배우고,<br>직접 <em>굽습니다</em></h2>
+          <div class="divider"></div>
+          <p>
+            썸원스브레드는 르 코르동 블루 제빵과 나카무라 ICIF 제과를 수학한 베이커가
+            직접 운영하는 김포 장기동의 소규모 베이커리입니다.
+          </p>
+          <p>
+            우리밀·프랑스밀·이태리밀을 용도에 맞게 선별하고,
+            국산팥·국내산 밤·김포산 딸기 등 로컬 식재료를 그대로 써서
+            재료 본연의 맛을 담습니다.
+            물 한 방울 넣지 않는 호텔 브리오슈처럼, 타협 없는 레시피를 고집합니다.
+          </p>
+          <div class="about-creds">
+            <div class="cred-item">
+              <span class="cred-icon">🎓</span>
+              <div class="cred-text">
+                <strong>LE CORDON BLEU 제빵</strong>
+                <span>Le Cordon Bleu · Boulangerie Diploma</span>
+              </div>
+            </div>
+            <div class="cred-item">
+              <span class="cred-icon">🎓</span>
+              <div class="cred-text">
+                <strong>나카무라 ICIF 제과</strong>
+                <span>Nakamura_ICIF · Pâtisserie</span>
+              </div>
+            </div>
+            <div class="cred-item">
+              <span class="cred-icon">🌾</span>
+              <div class="cred-text">
+                <strong>로컬 식재료 고집</strong>
+                <span>우리밀 · 국산팥 · 국내산 밤 · 김포산 딸기</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section id="philosophy">
+    <div class="container" style="text-align:center">
+      <span class="section-label">Philosophy</span>
+      <h2 class="section-title">우리가 빵을 굽는 이유</h2>
+      <div class="divider" style="margin:0 auto 32px"></div>
+      <p class="phil-quote">
+        "계절마다 달라지는 재료로, 이름 없이도 기억에 남는 빵을 만듭니다."
+      </p>
+      <div class="phil-grid">
+        <div class="phil-card">
+          <div class="phil-icon">🌿</div>
+          <h3>좋은 재료</h3>
+          <p>우리밀·프랑스밀·이태리밀을 구별해 쓰고, 국산팥과 국내산 밤으로 속을 채웁니다.</p>
+        </div>
+        <div class="phil-card">
+          <div class="phil-icon">🕐</div>
+          <h3>느린 발효</h3>
+          <p>서두르지 않고 시간을 들입니다. 천천히 발효된 반죽에서만 나오는 깊은 풍미를 담습니다.</p>
+        </div>
+        <div class="phil-card">
+          <div class="phil-icon">❤️</div>
+          <h3>작지만 정직하게</h3>
+          <p>소량만 구워 항상 가장 신선한 상태로 드립니다. 타협하지 않는 레시피를 지킵니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="container">
+      <span class="section-label">Our Menu</span>
+      <h2 class="section-title">계절이 담긴<br><em>메뉴</em></h2>
+      <div class="divider"></div>
+      <p class="menu-intro">
+        계절과 재료에 따라 구성이 달라질 수 있습니다.<br>
+        오늘의 빵은 인스타그램 <strong style="color:var(--brown)">@someonesbread</strong>에서 가장 먼저 확인하세요.
+      </p>
+
+      <!-- 탭 -->
+      <div class="menu-tabs" role="tablist">
+        <button class="tab-btn active" data-filter="all">전체</button>
+        <button class="tab-btn" data-filter="bread">🥐 매일의 빵</button>
+        <button class="tab-btn" data-filter="dessert">🎂 케이크 &amp; 디저트</button>
+        <button class="tab-btn" data-filter="jam">🫙 잼 &amp; 스프레드</button>
+        <button class="tab-btn" data-filter="drink">🥤 음료</button>
+      </div>
+
+      <div class="menu-grid" id="menuGrid">
+
+        <!-- 매일의 빵 -->
+        <div class="menu-card" data-category="bread">
+          <div class="menu-card-img c-croissant">🥐</div>
+          <div class="menu-card-body">
+            <h3>크루아상</h3>
+            <p>버터를 겹겹이 접어 만든 결이 살아있는 크루아상. 바삭한 껍질과 부드러운 속의 조화.</p>
+            <span class="menu-tag sig">Signature</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="bread">
+          <div class="menu-card-img c-brioche">🍞</div>
+          <div class="menu-card-body">
+            <h3>호텔 브리오슈</h3>
+            <p>달걀과 버터만으로 만든 브리오슈. 물을 일절 사용하지 않아 진하고 부드러운 풍미가 납니다.</p>
+            <span class="menu-tag sig">Signature</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="bread">
+          <div class="menu-card-img c-salt">🧂</div>
+          <div class="menu-card-body">
+            <h3>소금빵</h3>
+            <p>고소한 버터와 굵은 소금의 조화. 겉은 바삭, 속은 촉촉한 정직한 한 개.</p>
+            <span class="menu-tag">매일의 빵</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="bread">
+          <div class="menu-card-img c-mugwort">🌿</div>
+          <div class="menu-card-body">
+            <h3>쑥팥빵</h3>
+            <p>향긋한 쑥 반죽에 국산팥 앙금을 가득 채운 빵. 구수하고 은은한 단맛이 특징입니다.</p>
+            <span class="menu-tag">국산팥</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="bread">
+          <div class="menu-card-img c-milk">🍞</div>
+          <div class="menu-card-body">
+            <h3>탕종 우유식빵</h3>
+            <p>탕종법으로 만들어 촉촉하고 쫄깃한 식감이 오래 지속되는 우유식빵입니다.</p>
+            <span class="menu-tag">식빵</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="bread">
+          <div class="menu-card-img c-sour">🫓</div>
+          <div class="menu-card-body">
+            <h3>사워도우</h3>
+            <p>자연 발효종으로 느리게 키운 사워도우. 바삭한 크러스트와 촉촉한 크럼이 특징입니다.</p>
+            <span class="menu-tag">천연발효</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="bread">
+          <div class="menu-card-img c-wheat">🌾</div>
+          <div class="menu-card-body">
+            <h3>슬랩 통밀빵</h3>
+            <p>투박하지만 구수한 통밀 빵. 거친 텍스처 속에서 밀 본연의 향이 살아있습니다.</p>
+            <span class="menu-tag">통밀</span>
+          </div>
+        </div>
+
+        <!-- 케이크 & 디저트 -->
+        <div class="menu-card" data-category="dessert">
+          <div class="menu-card-img c-madeleine">🧁</div>
+          <div class="menu-card-body">
+            <h3>마들렌</h3>
+            <p>버터 향이 은은하게 퍼지는 클래식 마들렌. 촉촉하고 가벼운 식감으로 언제든 부담 없이.</p>
+            <span class="menu-tag">디저트</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="dessert">
+          <div class="menu-card-img c-madeleine">🍌</div>
+          <div class="menu-card-body">
+            <h3>바나나 마들렌</h3>
+            <p>잘 익은 바나나의 달콤함을 담은 마들렌. 은은한 과일향이 돋보이는 계절 메뉴.</p>
+            <span class="menu-tag season">시즌</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="dessert">
+          <div class="menu-card-img c-tart">🍓</div>
+          <div class="menu-card-body">
+            <h3>딸기 타르트</h3>
+            <p>김포산 딸기를 올린 계절 타르트. 바삭한 파트 쉬크레 위에 부드러운 크림과 제철 딸기.</p>
+            <span class="menu-tag season">시즌한정</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-category="dessert">
+          <div class="menu-card-img c-cake">🎂</div>
+          <div class="menu-card-body">
+            <h3>브리오슈 케이크</h3>
+            <p>시그니처 브리오슈를 베이스로 한 케이크. 생일이나 기념일 예약 주문을 받습니다.</p>
+            <span class="menu-tag">예약주문</span>
+          </div>
+        </div>
+
+        <!-- 잼 & 스프레드 -->
+        <div class="menu-card" data-category="jam">
+          <div class="menu-card-img c-jam">🫙</div>
+          <div class="menu-card-body">
+            <h3>썸원스 잼</h3>
+            <p>매장에서 직접 만드는 수제 잼. 계절 과일로 담아 오렌지색 유리병에 담겨나옵니다.</p>
+            <span class="menu-tag">수제</span>
+          </div>
+        </div>
+
+        <!-- 음료 -->
+        <div class="menu-card" data-category="drink">
+          <div class="menu-card-img c-drink">🍉</div>
+          <div class="menu-card-body">
+            <h3>수박 주스</h3>
+            <p>수박 100%, 시럽 0% — 여름을 가장 솔직하게 담은 한 잔. 얼음도 물도 넣지 않습니다.</p>
+            <span class="menu-tag season">여름한정</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER / SERVICES -->
+  <section id="order">
+    <div class="container">
+      <span class="section-label">Services</span>
+      <h2 class="section-title">주문 &amp; <em>서비스</em></h2>
+      <div class="divider"></div>
+
+      <div class="order-notice">
+        <span class="notice-icon">⚠️</span>
+        <div>
+          <strong style="color:var(--brown);display:block;margin-bottom:4px">DM 주문 문의는 받지 않습니다</strong>
+          주문 및 예약은 <strong>전화(031-984-2379)</strong> 또는
+          <strong>네이버 스마트스토어</strong>를 이용해 주세요.
+        </div>
+      </div>
+
+      <div class="order-grid">
+        <div class="order-card">
+          <div class="icon">🎁</div>
+          <h3>단체 답례품</h3>
+          <p>돌잔치, 결혼, 돌봄 행사 등 특별한 날을 위한 단체 답례품 주문을 받습니다. 수량과 포장 방식 협의 가능.</p>
+        </div>
+        <div class="order-card">
+          <div class="icon">🥪</div>
+          <h3>샌드위치 주문</h3>
+          <p>신선한 빵으로 만드는 샌드위치 주문 제작. 재료와 구성을 맞춤으로 상담해드립니다.</p>
+        </div>
+        <div class="order-card">
+          <div class="icon">🎂</div>
+          <h3>케이크 예약</h3>
+          <p>생일, 기념일을 위한 케이크 예약 주문. 원하는 디자인과 맛으로 특별한 날을 준비해드립니다.</p>
+        </div>
+      </div>
+
+      <div class="order-cta">
+        <a href="https://m.smartstore.naver.com/someonesbreadntable" target="_blank" class="btn-store">
+          네이버 스마트스토어 주문하기
+        </a>
+        <a href="tel:031-984-2379" class="btn-ghost">
+          전화 예약 031-984-2379
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section id="visit">
+    <div class="container">
+      <span class="section-label">Visit Us</span>
+      <h2 class="section-title">방문 안내</h2>
+      <div class="divider"></div>
+      <div class="visit-grid">
+        <div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:6px">운영시간</h3>
+          <p style="font-size:.82rem;color:var(--warm-gray);margin-bottom:4px">목요일부터 월요일까지 운영합니다</p>
+          <table class="hours-table">
+            <tbody>
+              <tr class="closed-row"><td>화요일</td><td>휴무</td></tr>
+              <tr class="closed-row"><td>수요일</td><td>휴무</td></tr>
+              <tr>
+                <td>목요일</td>
+                <td>10:30 – 19:00 <span class="open-badge">Open</span></td>
+              </tr>
+              <tr>
+                <td>금요일</td>
+                <td>10:30 – 19:00 <span class="open-badge">Open</span></td>
+              </tr>
+              <tr>
+                <td>토요일</td>
+                <td>10:30 – 19:00 <span class="open-badge">Open</span></td>
+              </tr>
+              <tr>
+                <td>일요일</td>
+                <td>10:30 – 19:00 <span class="open-badge">Open</span></td>
+              </tr>
+              <tr>
+                <td>월요일</td>
+                <td>10:30 – 19:00 <span class="open-badge">Open</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:.8rem;color:var(--warm-gray);margin-top:16px;line-height:1.8">
+            ※ 빵이 조기 소진될 수 있습니다.<br>
+            ※ 공휴일 운영 여부는 인스타그램을 확인해 주세요.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:20px">오시는 길</h3>
+          <div class="location-block">
+            <div class="location-item">
+              <div class="location-icon">📍</div>
+              <div class="location-text">
+                김포시 장기동
+                <span>정확한 주소는 인스타그램 프로필에서 확인하세요</span>
+              </div>
+            </div>
+            <div class="location-item">
+              <div class="location-icon">📞</div>
+              <div class="location-text">
+                <a href="tel:031-984-2379" style="color:inherit;text-decoration:none">031-984-2379</a>
+                <span>운영시간 중 전화 문의 가능합니다</span>
+              </div>
+            </div>
+            <div class="location-item">
+              <div class="location-icon">🛒</div>
+              <div class="location-text">
+                <a href="https://m.smartstore.naver.com/someonesbreadntable" target="_blank"
+                   style="color:var(--green);text-decoration:none;font-weight:500">네이버 스마트스토어</a>
+                <span>온라인 주문 및 예약</span>
+              </div>
+            </div>
+          </div>
+          <a href="https://map.naver.com/v5/search/썸원스브레드 김포 장기동" target="_blank" class="map-placeholder">
+            <span class="map-icon">🗺️</span>
+            <span>네이버 지도에서 찾아보기</span>
+            <span style="font-size:.75rem;opacity:.7">김포시 장기동</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section id="instagram">
+    <div class="container">
+      <span class="section-label">Follow Us</span>
+      <h2 class="section-title">오늘의 빵은<br><em>인스타그램</em>에서</h2>
+      <div class="divider" style="margin:0 auto 16px"></div>
+      <p style="font-size:.9rem;color:var(--warm-gray)">
+        매일 새로운 빵이 나옵니다. 계절마다 달라지는 메뉴와 새 소식을 가장 먼저 만나보세요.
+      </p>
+      <div class="insta-grid">
+        <div class="insta-tile">🥐</div>
+        <div class="insta-tile">🍓</div>
+        <div class="insta-tile">🍞</div>
+        <div class="insta-tile">🍉</div>
+        <div class="insta-tile">🧁</div>
+        <div class="insta-tile">🫙</div>
+      </div>
+      <p class="insta-handle">@someonesbread</p>
+      <div class="insta-cta">
+        <a href="https://www.instagram.com/someonesbread" target="_blank" class="btn-primary">
+          인스타그램 팔로우하기
+        </a>
+        <a href="https://m.smartstore.naver.com/someonesbreadntable" target="_blank" class="btn-store">
+          네이버 스마트스토어
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">SOMEONES</div>
+    <div class="footer-tagline">Artisan Bakery · 김포 장기동</div>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#order">Order</a></li>
+      <li><a href="#visit">Visit</a></li>
+      <li><a href="https://www.instagram.com/someonesbread" target="_blank">Instagram</a></li>
+      <li><a href="https://m.smartstore.naver.com/someonesbreadntable" target="_blank">Store</a></li>
+    </ul>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">
+      © 2024 SOMEONES · 썸원스브레드. 김포시 장기동 · 031-984-2379<br>
+      목 · 금 · 토 · 일 · 월  10:30 – 19:00 &nbsp;|&nbsp; 화 · 수 휴무
+    </p>
+  </footer>
+
+  <script>
+    // 메뉴 탭 필터
+    const tabs = document.querySelectorAll('.tab-btn');
+    const cards = document.querySelectorAll('.menu-card');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.dataset.filter;
+        cards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
